@@ -19,6 +19,16 @@ class App extends Component {
     } )
   }
 
+  deleteLetterHandler = (letterIndex) => {
+    const letters = [...this.state.inputLetters];
+    letters.splice(letterIndex, 1);
+    this.setState( {
+      inputLetters: letters,
+      inputText: letters.join(''),
+      inputTextLength: letters.length
+    } )
+  }
+
   render() {
     return (
       <div className="App">
@@ -29,13 +39,14 @@ class App extends Component {
           ></input>
         <p>Length of Input: {this.state.inputTextLength}</p>
         <ValidationComponent length={this.state.inputTextLength} />
-        {this.state.inputLetters.map((letter) => {
-          return <CharComponent letter={letter} />
+        {this.state.inputLetters.map((letter, index) => {
+          return <CharComponent
+            key={index}  
+            letter={letter}
+            click={() => this.deleteLetterHandler(index)} />
         })}
 
         <ol>
-          <li>Create another component (=> CharComponent) and style it as an inline box (=> display: inline-block, padding: 16px, text-align: center, margin: 16px, border: 1px solid black).</li>
-          <li>Render a list of CharComponents where each CharComponent receives a different letter of the entered text (in the initial input field) as a prop.</li>
           <li>When you click a CharComponent, it should be removed from the entered text.</li>
         </ol>
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
